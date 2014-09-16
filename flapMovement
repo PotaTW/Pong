@@ -1,0 +1,31 @@
+public void UpdateFlapMovement()
+        {
+            flapMotion = Vector2.Zero;
+
+            keyboardState = Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.W))
+            {
+                flapMotion.Y += -1;
+            }
+
+            if (keyboardState.IsKeyDown(Keys.Down) || keyboardState.IsKeyDown(Keys.S))
+            {
+                flapMotion.Y += 1;
+            }
+            
+            if (keyboardState.IsKeyDown(Keys.F) || keyboardState.IsKeyDown(Keys.H))
+            {
+                flapMotion.X += -1;
+            }
+
+            if (keyboardState.IsKeyDown(Keys.NUMLOCK.4) || keyboardState.IsKeyDown(Keys.NUMLOCK.6))
+            {
+                flapMotion.X += 1;
+            }
+
+            flapMotion.Y *= flapSpeed;
+            flapMotion.X *= flapSpeed;
+
+            flapPosition += flapMotion;
+        }
