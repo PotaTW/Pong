@@ -48,7 +48,13 @@ namespace Pong
 
         }
 
+        public void UpdateFlapMove(Keys key)
+        {
+            if(key == Keys.Up)
+            {
 
+            }
+        }
         public void UpdateFlapMovement()
         {
             flapMotion = Vector2.Zero;
@@ -91,11 +97,53 @@ namespace Pong
             flapPosition += flapMotion;
         }
 
+        public void UpdateFlapMovement3()
+        {
+            flapMotion = Vector2.Zero;
 
-        public void SetFlapStartPos(int setXPos)
+            keyboardState = Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(Keys.F))
+            {
+                flapMotion.X += -1;
+            }
+
+            if (keyboardState.IsKeyDown(Keys.H))
+            {
+                flapMotion.X += 1;
+            }
+
+            flapMotion.Y *= flapSpeed;
+
+            flapPosition += flapMotion;
+        }
+
+        public void UpdateFlapMovement4()
+        {
+            flapMotion = Vector2.Zero;
+
+            keyboardState = Keyboard.GetState();
+
+            if (keyboardState.IsKeyDown(Keys.NumPad4))
+            {
+                flapMotion.X += -1;
+            }
+
+            if (keyboardState.IsKeyDown(Keys.NumPad6))
+            {
+                flapMotion.X += 1;
+            }
+
+            flapMotion.Y *= flapSpeed;
+
+            flapPosition += flapMotion;
+        }
+
+
+        public void SetFlapStartPos(int setXPos, int setYPos)////////////////SetyPos
         {
             flapPosition.X = setXPos;
-            flapPosition.Y = (screenBounds.Height / 2) - (flapTexture.Height / 2);
+            flapPosition.Y = setYPos;
         }
 
 

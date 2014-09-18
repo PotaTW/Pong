@@ -28,8 +28,8 @@ namespace Pong
 
         SoundEffect padEffect;
 
-        Player player;
-        Player player2;
+        Player[] players = new Player[4];
+
         Ball ball;
 
         Rectangle screenRect;
@@ -73,7 +73,8 @@ namespace Pong
 
             Background = Content.Load<Texture2D>("Background.png");
 
-            Texture2D playerTexture = Content.Load<Texture2D>("padle.png");
+            Texture2D playerTextureVertical = Content.Load<Texture2D>("padle.png");
+            Texture2D playerTextureHorizontal = Content.Load<Texture2D>("padleHorizontal.png");
 
             Texture2D ballTexture = Content.Load<Texture2D>("Ball.png");
 
@@ -83,13 +84,54 @@ namespace Pong
 
             padEffect = Content.Load<SoundEffect>("Blopp");
 
-            player = new Player(playerTexture, screenRect);
-            player2 = new Player(playerTexture, screenRect);
+
+
+            for (int x = 0; x < players.Length; x++ )
+            {
+                if (x == 0 || x == 1)
+                {
+                    players[x] = new Player(playerTextureVertical, screenRect);
+                }
+                if(x == 2 || x == 3)
+                {
+                    players[x] = new Player(playerTextureHorizontal, screenRect);
+                }
+            }
+
+
+
+
+            //player = new Player(playerTextureVertical, screenRect);
+            //player2 = new Player(playerTextureVertical, screenRect);
+            //player3 = new Player(playerTextureHorizontal, screenRect);
+            //player4 = new Player(playerTextureHorizontal, screenRect);
 
             ball = new Ball(ballTexture, screenRect);
 
-            player.SetFlapStartPos(5);
-            player2.SetFlapStartPos(graphics.PreferredBackBufferWidth - 5 - (playerTexture.Width));
+
+            for (int x = 0; x < players.Length; x++)
+            {
+                if(x == 0)
+                {
+                    players[x].SetFlapStartPos(5, graphics.PreferredBackBufferHeight / 2);
+                }
+                if (x == 1)
+                {
+                    players[x].SetFlapStartPos(graphics.PreferredBackBufferWidth - 5 - (playerTextureVertical.Width), graphics.PreferredBackBufferHeight / 2);
+                }
+                if (x == 2)
+                {
+                    players[x].SetFlapStartPos(graphics.PreferredBackBufferHeight - 5 - (playerTextureVertical.Height), graphics.PreferredBackBufferWidth / 2);
+                }
+                if (x == 3)
+                {
+                    players[x].SetFlapStartPos(graphics.PreferredBackBufferWidth / 2, 5);
+                }
+            }
+            //player.SetFlapStartPos(5, graphics.PreferredBackBufferHeight / 2);
+            //player2.SetFlapStartPos(graphics.PreferredBackBufferWidth - 5 - (playerTextureVertical.Width), graphics.PreferredBackBufferHeight / 2);
+            //player3.SetFlapStartPos(graphics.PreferredBackBufferHeight - 5 - (playerTextureVertical.Height), graphics.PreferredBackBufferWidth / 2);
+            //player4.SetFlapStartPos(graphics.PreferredBackBufferWidth / 2, 5);
 
             
 
@@ -116,19 +158,32 @@ namespace Pong
                 Exit();
 
             // TODO: Add your update logic here
-            
-           
-            player.FlapBounds(); //Passer på at den ikke går uttafor Bounds
-            player2.FlapBounds();
+
+
+            for (int x = 0; x < 1; x++)
+            {
+                players[x].FlapBounds();
+            }
+            //player.FlapBounds(); //Passer på at den ikke går uttafor Bounds
+            //player2.FlapBounds();
 
             ball.UpdateBallDirection(); //Om skytes sender ballen avgårde
 
-            player.UpdateFlapMovement(); //Beveger flappen
-            player2.UpdateFlapMovement2();
+            for (int x = 0; x < players.Length; x++)
+            {
+                players[0].UpdateFlapMove(Keys.Up);
+                //players[x].UpdateFlapMovement();
+            }
+
+            //player.UpdateFlapMovement(); //Beveger flappen
+            //player2.UpdateFlapMovement2();
+            //player3.UpdateFlapMovement3();
+            //player4.UpdateFlapMovement4();
 
             ball.SetScore();
 
-            ball.BallStartPosition(player.GetPaddleBounds()); //Setter ballen til star posisjon ///////////////////////////////////
+            
+            ball.BallStartPosition(players[0].GetPaddleBounds()); //Setter ballen til star posisjon ///////////////////////////////////
 
             BallPaddleIntersect();
 
@@ -140,28 +195,53 @@ namespace Pong
 
         public void BallPaddleIntersect()
         {
-            if (player2.GetUpperPaddleBounds().Intersects(ball.GetBallBounce()))
+
+            if (players[0].GetUpperPaddleBounds().Intersects(ball.GetBallBounce()))
             {
                 ball.UpperRightPadCollision();
                 padEffect.Play();
             }
-            if (player2.GetLowerPaddleBounds().Intersects(ball.GetBallBounce()))
+            if (players[0].GetLowerPaddleBounds().Intersects(ball.GetBallBounce()))
             {
                 ball.LowerRightPadCollision();
                 padEffect.Play();
             }
-            
 
-            if (player.GetUpperPaddleBounds().Intersects(ball.GetBallBounce()))
+
+            if (players[0].GetUpperPaddleBounds().Intersects(ball.GetBallBounce()))
             {
                 ball.UpperLeftPadCollision();
                 padEffect.Play();
             }
-            if (player.GetLowerPaddleBounds().Intersects(ball.GetBallBounce()))
+            if (players[0].GetLowerPaddleBounds().Intersects(ball.GetBallBounce()))
             {
                 ball.LowerLeftPadCollision();
                 padEffect.Play();
             }
+
+
+            //if (player2.GetUpperPaddleBounds().Intersects(ball.GetBallBounce()))
+            //{
+            //    ball.UpperRightPadCollision();
+            //    padEffect.Play();
+            //}
+            //if (player2.GetLowerPaddleBounds().Intersects(ball.GetBallBounce()))
+            //{
+            //    ball.LowerRightPadCollision();
+            //    padEffect.Play();
+            //}
+
+
+            //if (player.GetUpperPaddleBounds().Intersects(ball.GetBallBounce()))
+            //{
+            //    ball.UpperLeftPadCollision();
+            //    padEffect.Play();
+            //}
+            //if (player.GetLowerPaddleBounds().Intersects(ball.GetBallBounce()))
+            //{
+            //    ball.LowerLeftPadCollision();
+            //    padEffect.Play();
+            //}
 
         }
 
@@ -180,8 +260,15 @@ namespace Pong
 
             spriteBatch.Draw(Background, screenRect, Color.White);
 
-            player.Draw(spriteBatch);
-            player2.Draw(spriteBatch);
+            for (int x = 0; x < players.Length; x++)
+            {
+                players[x].Draw(spriteBatch);
+            }
+
+            //player.Draw(spriteBatch);
+            //player2.Draw(spriteBatch);
+            //player3.Draw(spriteBatch);
+            //player4.Draw(spriteBatch);
             
             ball.Draw(spriteBatch);
 
