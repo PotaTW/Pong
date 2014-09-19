@@ -24,7 +24,7 @@ namespace Pong
 
         Rectangle screenBounds;
 
-        public Player()ffff
+        public Player()
         {
 
         }
@@ -48,12 +48,23 @@ namespace Pong
 
         }
 
-        public void UpdateFlapMove(Keys key)
+        public void UpdateFlapMove(Keys UpKey, Keys DownKey) //Keypressed, needs more work
         {
-            if(key == Keys.Up)
+            flapMotion = Vector2.Zero;
+            
+            Keys upKey = UpKey;
+            Keys downKey = DownKey;
+            
+            if(upKey)
             {
-
+                flapMotion.Y += -1;
             }
+            else if(downKey)
+            {
+                flapMotion.Y += 1;
+            }
+            
+            if()
         }
         public void UpdateFlapMovement()
         {
