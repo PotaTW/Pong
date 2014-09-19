@@ -24,7 +24,7 @@ namespace Pong
 
         Rectangle screenBounds;
 
-        public Player()
+        public Player()ffff
         {
 
         }
